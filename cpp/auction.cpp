@@ -7,6 +7,7 @@
 #include <algorithm>
 using namespace std;
 
+typedef int cost_t;
 #define INF numeric_limits<int>::max()
 #define VERBOSE false
 
@@ -14,10 +15,12 @@ using namespace std;
 void auction(int N);
 void auctionRound(vector<int>* assignment, vector<double>* prices, vector<int>* C, double epsilon);
 vector<int> makeRandC(int size);
-void printMatrix(vector<auto>* mat, int size);
+void printMatrix(vector<cost_t>* mat, int size);
 vector<int> getIndicesWithVal(vector<int>* v, int val);
-void reset(vector<auto>* v, auto val);
-void printVec(vector<auto>* v);
+void reset(vector<cost_t>* v, cost_t val);
+
+template <class T>
+void printVec(vector<T>* v);
 
 int main()
 {
@@ -70,7 +73,7 @@ void auction(int N)
 	double time = (double) (end-start) / CLOCKS_PER_SEC * 1000.0;
 
 	cout << "Num Iterations:\t" << iter << endl;
-	cout << "Total time:\t" << timing / 1000.0 << endl;
+	cout << "Total time:\t" << timing / 1000.0 << "s" << endl;
 	cout << "Total CPU time:\t" << time << endl;
 
 	if (VERBOSE)
@@ -206,7 +209,7 @@ vector<int> makeRandC(int size)
 	return mat;
 }
 
-void printMatrix(vector<auto>* mat, int size)
+void printMatrix(vector<cost_t>* mat, int size)
 {
 	for(int i = 0; i < size; i++)
 	{
@@ -218,11 +221,12 @@ void printMatrix(vector<auto>* mat, int size)
 	}
 }
 
-void printVec(vector<auto>* v)
+template <class T>
+void printVec(vector<T>* v)
 {
 	for(int i = 0; i < v->size(); i++)
 	{
-		if (v->at(i) == INF)
+        if (v->at(i) == numeric_limits<T>::max())
 		{
 			cout << "INF" << "\t";
 		}
@@ -248,7 +252,7 @@ vector<int> getIndicesWithVal(vector<int>* v, int val)
 	return out;
 }
 
-void reset(vector<auto>* v, auto val)
+void reset(vector<cost_t>* v, cost_t val)
 {
 	for (int i = 0; i < v->size(); i++)
 	{
